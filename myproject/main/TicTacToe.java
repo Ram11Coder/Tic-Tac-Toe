@@ -3,22 +3,26 @@ package myproject.main;
 import java.util.Scanner;
 
 /**
- * Todo: Need to work on some corner edge case
+ * Todo: Need to work on some corner edge case 1.User vaildation 2.Move some
+ * variable into players class 3.Check possible to write unit test cases 4.Split
+ * the logic in seperate block 5.Provide the Comments to the block of code
+ * 6.Optimize your code 7.Check all validation and if possible throw exception
  * 
  *
  */
 public class TicTacToe {
-	public static Players currentPlayer;
+	private static Players currentPlayer;
 	public static final char CROSS = 'X', CIRCLE = 'O';
 	private static char box[] = new char[9];
 	static Scanner sc = new Scanner(System.in);
 	static {
-		System.out.println("Welcome to tic tac toe game");
+		System.out.println("******************************");
+		System.out.println(" Welcome to tic tac toe game ");
+		System.out.println("******************************");
 	}
 
 	public static void main(String[] args) {
-
-		// Create a while loop to handle the user creation
+		boolean winnerStatus = false;
 		int p = 1;
 		Players player1 = null, player2 = null;
 		while (p <= Players.PLAYER_COUNT) {
@@ -32,11 +36,10 @@ public class TicTacToe {
 				player2.setRole("Player 2");
 			}
 			System.out.println("Player " + p + " created");
-
 			p++;
 		}
 		char toss;
-		System.out.println("Let's check whose going to get the opportunity to choose the toss");
+		System.out.println("Spin the toss");
 		if (userTossChecking()) {
 			System.out.println("Player 1 choose the toss (H/T)");
 			toss = sc.next().toUpperCase().charAt(0);
@@ -74,12 +77,13 @@ public class TicTacToe {
 				System.out.println(currentPlayer.getName() + " has won the game");
 				currentPlayer = (currentPlayer == player1) ? player2 : player1;
 				currentPlayer.setStatus(Players.LOSER);
+				winnerStatus = true;
 				break;
 			}
 			currentPlayer = (currentPlayer == player1) ? player2 : player1;
 			i++;
 		}
-		if (!(player1.getStatus() == Players.WINNER || player2.getStatus() == Players.WINNER)) {
+		if (!winnerStatus) {
 			player1.setStatus(Players.DRAW);
 			player2.setStatus(Players.DRAW);
 		}
@@ -166,7 +170,7 @@ public class TicTacToe {
 	private static void setStatus(int n, String role) {
 
 		while (checkStatus(n)) {
-			System.out.println("The given number is taken please choose the correct number");
+			System.out.println("The given number is taken, please choose the correct number");
 			printStatus();
 			n = sc.nextInt();
 		}
